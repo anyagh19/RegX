@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MlBackend.Data;
 using MlBackend.Models;
 using MlBackend.Models.Entities;
+using MlBackend.Services;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -13,114 +15,78 @@ namespace MlBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController(IAuthService authService) : ControllerBase
     {
-        private readonly ApplicationDbContext dbContext;
-        private readonly IConfiguration configuration;
+       
 
-        public UserController(ApplicationDbContext dbContext , IConfiguration configuration)
-        {
-            this.dbContext = dbContext;
-            this.configuration = configuration;
-        }
+        //[HttpGet]
+        //public IActionResult GetUsers()
+        //{
+        //    var allUsers = dbContext.Users.ToList();
 
-        [HttpGet]
-        public IActionResult GetUsers()
-        {
-            var allUsers = dbContext.Users.ToList();
+        //    return Ok(allUsers);
+        //}
 
-            return Ok(allUsers);
-        }
+        //[HttpGet]
+        //[Route("{id:guid}")]
+        //public IActionResult GetUserById(Guid id)
+        //{
+        //    var User = dbContext.Users.Find(id);
 
-        [HttpGet]
-        [Route("{id:guid}")]
-        public IActionResult GetUserById(Guid id)
-        {
-            var User = dbContext.Users.Find(id);
+        //    if (User is null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (User is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(User);
-        }
+        //    return Ok(User);
+        //}
 
 
         [HttpPost]
         [Route("sign-up")]
-        public IActionResult CreateUser(UserDtos userDtos)
+        public async Task<ActionResult<User>> RegisterUser(UserDtos userDtos)
         {
-            if(!ModelState.IsValid)
+           var user = await authService.RegisterAsync(userDtos);
+
+            if(user is null)
             {
-                return BadRequest(ModelState);
+               return BadRequest("User already exists");
             }
-
-            var existingUser = dbContext.Users.FirstOrDefault(u => u.Name == userDtos.Name);
-            if(existingUser is not null)
-            {
-                return BadRequest("User already exists");
-            }
-
-            var PasswordHasher = new PasswordHasher<User>();
-            
-            var user = new User
-            {
-                Name = userDtos.Name,
-                Password = PasswordHasher.HashPassword(null!, userDtos.Password),
-            };
-            //var userEntity = new User()
-            //{
-            //    Name = userDtos.Name,
-            //    Password = hashPassword,
-            //};
-
-            dbContext.Users.Add(user);
-            dbContext.SaveChanges();
 
             return Ok(user);
         }
 
         [HttpPost]
         [Route("sign-in")]
-        public IActionResult Login(UserDtos userDtos)
+        public async Task<ActionResult<TokenResponseDto>> Login(UserDtos userDtos)
         {
-            var user = dbContext.Users.FirstOrDefault(u => u.Name == userDtos.Name);
-            if(user is null)
+            
+            var token = await authService.LoginAsync(userDtos);
+            if(token is null)
             {
-                return BadRequest("wrong crentials");
+                return Unauthorized("Invalid credentials");
             }
-            if(new PasswordHasher<User>().VerifyHashedPassword(user , user.Password , userDtos.Password) == PasswordVerificationResult.Failed)
-            {
-                return BadRequest("wrong Credentials");
-            }
-
-            string token = GenerateToken(user);
-
             return Ok(token);
         }
 
-        private string GenerateToken(User user)
+        [HttpPost]
+        [Route("refresh-tokens")]
+        public async Task<ActionResult<TokenResponseDto>> RefreshTokens(RefreshTokenRequestDto refreshTokenRequest)
         {
-            var claims = new List<Claim>
+            var result = await authService.RefreshTokensAsync(refreshTokenRequest);
+            if (result is null || result.AccessToken is null || result.RefreshToken is null)
             {
-                new Claim(ClaimTypes.Name , user.Name)
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("AppSettings:Token")!));
-
-            var creds = new SigningCredentials(key , SecurityAlgorithms.HmacSha512);
-
-            var tokenDescriptor = new JwtSecurityToken
-            (
-                issuer: configuration.GetValue<string>("AppSettings:Issuer"),  
-                audience: configuration.GetValue<string>("AppSettings:Audience"),
-                claims: claims,
-                expires: DateTime.Now.AddDays(1),
-                signingCredentials: creds
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+                return Unauthorized("Invalid refresh token");
+            }
+            return Ok(result);
         }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult AuthenticatedOnlyEndpoint()
+        {
+            return Ok("ur good yo fo");
+        }
+
     }
 }
