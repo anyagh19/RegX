@@ -1,0 +1,6 @@
+@MlBackend_HostAddress = http://localhost:5198
+
+GET {{MlBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

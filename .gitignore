@@ -1,0 +1,17 @@
+# Frontend
+# frontend/node_modules/
+# frontend/dist/
+# frontend/.env
+
+# Backend
+MlBackend/bin/
+MlBackend/obj/
+MlBackend/.env
+MlBackend/.vs
+
+
+# General
+.env
+.vscode/
+.idea/
+*.log
