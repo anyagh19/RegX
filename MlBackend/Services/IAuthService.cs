@@ -7,6 +7,8 @@ namespace MlBackend.Services
     {
         Task<User?> RegisterAsync(UserDtos userDtos);
         Task<TokenResponseDto?> LoginAsync(UserDtos userDtos);
-        Task<TokenResponseDto?> RefreshTokensAsync(RefreshTokenRequestDto refreshTokenRequest);
+        Task<TokenResponseDto?> RefreshTokensAsync(string refreshToken);
+        Task RevokeRefreshTokenAsync(string refreshToken);
+
     }
 }

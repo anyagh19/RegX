@@ -64,9 +64,10 @@ namespace MlBackend.Services
 
         }
 
-        public async Task<TokenResponseDto?> RefreshTokensAsync(RefreshTokenRequestDto refreshTokenRequest)
+       
+        public async Task<TokenResponseDto?> RefreshTokensAsync(string refreshToken)
         {
-            var user = await ValidateRefreshTokenAsync(refreshTokenRequest.RefreshToken);
+            var user = await ValidateRefreshTokenAsync(refreshToken);
             if (user is null)
             {
                                return null;
@@ -79,6 +80,17 @@ namespace MlBackend.Services
             };
 
             return response;
+        }
+
+        public async Task RevokeRefreshTokenAsync(string refreshToken)
+        {
+            var user = await dbContext.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+            if (user == null)
+                return ;
+            user.RefreshToken = null;
+            user.RefreshTokenExpiryDate = null;
+            await dbContext.SaveChangesAsync();
+            
         }
         private string GenerateToken(User user)
         {
@@ -136,5 +148,7 @@ namespace MlBackend.Services
 
             return user;
         } 
+    
+        
     }
 }
