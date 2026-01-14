@@ -1,8 +1,11 @@
 import React from 'react'
+import Dashboard from '../modules/auth/components/Dashboard'
 
 function UserHomePage() {
   return (
-    <div>UserHomePage</div>
+    <div>
+      <Dashboard />
+    </div>
   )
 }
 

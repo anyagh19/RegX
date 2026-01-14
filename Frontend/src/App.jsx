@@ -10,6 +10,7 @@ import ProtectedRoutes from './routes/ProtectedRoutes'
 import { useDispatch } from 'react-redux'
 import { addAccessToken, removeAccessToken } from './features/auth/authSlice'
 import api from './../api'
+import PublicRoutes from './routes/PublicRoutes'
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -44,9 +45,9 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/signin" element={<SignInPage />} />
+        <Route path="/" element={<PublicRoutes><HomePage /></PublicRoutes>} />
+        <Route path="/signup" element={<PublicRoutes><SignUpPage /></PublicRoutes>} />
+        <Route path="/signin" element={<PublicRoutes><SignInPage /></PublicRoutes>} />
         <Route path="/user-home" element={<ProtectedRoutes><UserHomePage /></ProtectedRoutes>} />
 
       </Routes>

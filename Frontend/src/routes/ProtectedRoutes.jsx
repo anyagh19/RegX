@@ -14,6 +14,10 @@ function ProtectedRoutes({ children }) {
     return <Navigate to="/signin" replace />;
   }
 
+  // if (!accessToken) {
+  //   return <Navigate to="/signin" replace />;
+  // }
+
   return children;
 }
 
