@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux'
 import { addAccessToken, removeAccessToken } from './features/auth/authSlice'
 import api from './../api'
 import PublicRoutes from './routes/PublicRoutes'
+import UploadPage from './pages/UploadPage'
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -49,6 +50,7 @@ function App() {
         <Route path="/signup" element={<PublicRoutes><SignUpPage /></PublicRoutes>} />
         <Route path="/signin" element={<PublicRoutes><SignInPage /></PublicRoutes>} />
         <Route path="/user-home" element={<ProtectedRoutes><UserHomePage /></ProtectedRoutes>} />
+        <Route path="/upload" element={<ProtectedRoutes><UploadPage /></ProtectedRoutes>} />
 
       </Routes>
     </>
