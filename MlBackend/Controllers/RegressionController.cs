@@ -15,12 +15,17 @@ namespace MlBackend.Controllers
         [Route("predict")]
         public async Task<IActionResult> Predict([FromForm] UserFileUploadDto userFileUploadDto)
         {
-            var result = predictService.ReadCsv(userFileUploadDto.CsvFile);
+            //var result = await predictService.ReadCsv(userFileUploadDto.CsvFile);
+            var result = await predictService.GetResponse(userFileUploadDto.CsvFile);
             if (result is null)
             {
                 return BadRequest("Invalid CSV file.");
             }
             return Ok(result);
         }
+
+        //[HttpPost]
+        //[Route("response")]
+        //public async Task<IActionResult> Response() 
     }
 }
