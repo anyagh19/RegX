@@ -37,6 +37,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IAuthService , AuthService>();
 builder.Services.AddScoped<IPredictService, PredictService>();
+builder.Services.AddScoped<IAnalysisService, AnalysisService>();
 
 builder.Services.AddCors(options =>
 {

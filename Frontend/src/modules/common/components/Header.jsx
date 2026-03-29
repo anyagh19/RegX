@@ -1,3 +1,4 @@
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import api from '../../../../api'
@@ -35,6 +36,7 @@ function Header() {
 
                 <div className="hidden md:flex items-center gap-8">
                     <a href="#" className="text-slate-300 hover:text-white transition-colors">Dashboard</a>
+                    <Link to="/analysis" className="text-slate-300 hover:text-white transition-colors">Anlysis</Link>
                     <a href="#" className="text-slate-300 hover:text-white transition-colors">Datasets</a>
                     <a href="#" className="text-slate-300 hover:text-white transition-colors">Model History</a>
                     <div className="h-6 w-px bg-slate-700"></div>

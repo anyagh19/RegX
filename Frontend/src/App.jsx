@@ -1,4 +1,4 @@
-import { useState , useEffect } from 'react'
+import React, { useState , useEffect } from 'react'
 
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
@@ -12,6 +12,7 @@ import { addAccessToken, removeAccessToken } from './features/auth/authSlice'
 import api from './../api'
 import PublicRoutes from './routes/PublicRoutes'
 import UploadPage from './pages/UploadPage'
+import AnalysisPage from './pages/AnalysisPage'
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -51,7 +52,7 @@ function App() {
         <Route path="/signin" element={<PublicRoutes><SignInPage /></PublicRoutes>} />
         <Route path="/user-home" element={<ProtectedRoutes><UserHomePage /></ProtectedRoutes>} />
         <Route path="/upload" element={<ProtectedRoutes><UploadPage /></ProtectedRoutes>} />
-
+        <Route path="/analysis" element={<AnalysisPage />} />
       </Routes>
     </>
   )
