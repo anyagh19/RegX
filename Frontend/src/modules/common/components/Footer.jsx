@@ -1,56 +1,73 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Footer() {
   return (
-    <footer class="bg-white border-t border-slate-200 pt-12 pb-8 px-6">
-  <div class="max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-      <div class="col-span-1 md:col-span-1">
-        <div class="flex items-center gap-2 mb-4">
-          <div class="w-6 h-6 bg-slate-900 rounded flex items-center justify-center text-[10px] text-white">R</div>
-          <span class="font-bold text-slate-900">RegressAI</span>
+    <footer className="bg-[#0B1120] border-t border-slate-800/60 pt-10 pb-8 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+          {/* Brand & Description */}
+          <div>
+            <div className="flex items-center gap-2.5 mb-3">
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                <span className="text-white font-bold text-xs">R</span>
+              </div>
+              <span className="font-bold text-white tracking-tight">
+                Regress<span className="text-blue-400">AI</span>
+              </span>
+            </div>
+            <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
+              High‑performance regression analysis and predictive modeling for data scientists.
+            </p>
+          </div>
+
+          {/* Minimal Link Groups */}
+          <div className="col-span-2 grid grid-cols-2 md:grid-cols-3 gap-8">
+            <div>
+              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">
+                Algorithms
+              </h4>
+              <ul className="space-y-2.5 text-sm">
+                <li><Link to="#" className="text-slate-400 hover:text-blue-400 transition-colors">Linear Regression</Link></li>
+                <li><Link to="#" className="text-slate-400 hover:text-blue-400 transition-colors">Random Forest</Link></li>
+                <li><Link to="#" className="text-slate-400 hover:text-blue-400 transition-colors">Ridge & Lasso</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">
+                Resources
+              </h4>
+              <ul className="space-y-2.5 text-sm">
+                <li><Link to="#" className="text-slate-400 hover:text-blue-400 transition-colors">API Docs</Link></li>
+                <li><Link to="#" className="text-slate-400 hover:text-blue-400 transition-colors">Sample Data</Link></li>
+                <li><Link to="#" className="text-slate-400 hover:text-blue-400 transition-colors">Community</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">
+                Company
+              </h4>
+              <ul className="space-y-2.5 text-sm">
+                <li><Link to="#" className="text-slate-400 hover:text-blue-400 transition-colors">Privacy</Link></li>
+                <li><Link to="#" className="text-slate-400 hover:text-blue-400 transition-colors">Terms</Link></li>
+                <li><Link to="#" className="text-slate-400 hover:text-blue-400 transition-colors">Status</Link></li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <p class="text-slate-500 text-sm leading-relaxed">
-          High-performance regression analysis and predictive modeling tools for data scientists.
-        </p>
-      </div>
 
-      <div>
-        <h4 class="font-bold text-slate-900 mb-4 uppercase text-xs tracking-widest">Algorithms</h4>
-        <ul class="space-y-2 text-sm text-slate-600">
-          <li><a href="#" class="hover:text-indigo-600">Linear Regression</a></li>
-          <li><a href="#" class="hover:text-indigo-600">Polynomial Fit</a></li>
-          <li><a href="#" class="hover:text-indigo-600">Random Forest</a></li>
-          <li><a href="#" class="hover:text-indigo-600">Ridge & Lasso</a></li>
-        </ul>
+        {/* Bottom bar */}
+        <div className="pt-6 border-t border-slate-800/60 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-slate-500">
+          <p>© 2026 RegressAI Engine. All rights reserved.</p>
+          <div className="flex gap-6">
+            <Link to="#" className="hover:text-blue-400 transition-colors">Privacy Policy</Link>
+            <Link to="#" className="hover:text-blue-400 transition-colors">Terms of Service</Link>
+            <Link to="#" className="hover:text-blue-400 transition-colors">System Status</Link>
+          </div>
+        </div>
       </div>
-
-      <div>
-        <h4 class="font-bold text-slate-900 mb-4 uppercase text-xs tracking-widest">Resources</h4>
-        <ul class="space-y-2 text-sm text-slate-600">
-          <li><a href="#" class="hover:text-indigo-600">API Docs</a></li>
-          <li><a href="#" class="hover:text-indigo-600">Sample Data</a></li>
-          <li><a href="#" class="hover:text-indigo-600">Community</a></li>
-        </ul>
-      </div>
-
-      <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-        <p class="text-[10px] font-mono text-slate-400 mb-2 uppercase">Core Equation</p>
-        <p class="text-sm font-mono text-slate-700 italic">$y = \beta_0 + \beta_1x_1 + \epsilon$</p>
-      </div>
-    </div>
-
-    <div class="pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
-      <p>© 2026 RegressAI Engine. All rights reserved.</p>
-      <div class="flex gap-6">
-        <a href="#" class="hover:underline">Privacy Policy</a>
-        <a href="#" class="hover:underline">Terms of Service</a>
-        <a href="#" class="hover:underline">Status</a>
-      </div>
-    </div>
-  </div>
-</footer>
-  )
+    </footer>
+  );
 }
 
-export default Footer
+export default Footer;
